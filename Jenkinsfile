@@ -16,8 +16,8 @@ node {
         // Tool name from Jenkins configuration
         rtMaven.tool = "maven"
         // Set Artifactory repositories for dependencies resolution and artifacts deployment.
-        rtMaven.deployer releaseRepo:'bootcampsgroup', snapshotRepo:'devopscasestudy', server: server
-        rtMaven.resolver releaseRepo:'bootcampsgroup', snapshotRepo:'devopscasestudy', server: server
+        rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'bootcampgroup', server: server
+        rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'devopscasestudy', server: server
     }
 
     stage('Maven build') {
