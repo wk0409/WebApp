@@ -5,6 +5,7 @@ node {
     // Create an Artifactory Maven instance.
     def rtMaven = Artifactory.newMavenBuild()
     def buildInfo
+    def functest
     
  rtMaven.tool = "maven"
 
@@ -35,7 +36,7 @@ node {
     }
 	
 	stage('Functional Test'){
-		buildInfo = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
+		functest = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
 		publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
 	}
 	
