@@ -34,12 +34,9 @@ node {
 	deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.191.105.236:8080')], contextPath: '/QAwebapp', war: '**/*.war'
     }
 	
-	//stage('Functional Test'){
-	
-		//dir("functionaltest/target") {
-	  // sh "java -jar functionaltest-0.0.1-SNAPSHOT.jar"
-       //}
-	//}
+	stage('Functional Test'){
+		publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+	}
 	
 	stage ('performance testing')
 	{
