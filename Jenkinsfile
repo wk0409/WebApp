@@ -36,8 +36,8 @@ node {
 	
 	stage('Functional Test'){
 	
-		dir("comtest/target") {
-	   sh "java -jar com.test-1.0-SNAPSHOT.jar"
+		dir("functionaltest/target") {
+	   sh "java -jar functionaltest-0.0.1-SNAPSHOT.jar"
        }
 	}
 	
