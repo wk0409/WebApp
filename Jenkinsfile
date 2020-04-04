@@ -25,7 +25,7 @@ node {
 	 stage("Build & SonarQube analysis") {
               buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
               withSonarQubeEnv('sonar') {
-                sh 'mvn clean package sonar:sonar -Dsonar.host.url=http://3.1.202.152:9000/ -Dsonar.login=69477fd483cf00ede499dc6a8bba3a82f96dfc35 -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java
+                sh 'sonar:sonar -Dsonar.host.url=http://3.1.202.152:9000/ -Dsonar.login=69477fd483cf00ede499dc6a8bba3a82f96dfc35 -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java
             }
           }
 
