@@ -21,14 +21,16 @@ node {
         rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
     }
 
+	stage('Maven Build') {
+		buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
+	}
    	
-	 stage("Build & SonarQube analysis") {
-              buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
-              withSonarQubeEnv('sonar') {
-                sh 'sonar:sonar -Dsonar.host.url=http://3.1.202.152:9000/ -Dsonar.login=69477fd483cf00ede499dc6a8bba3a82f96dfc35 -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java
-            }
-          }
 
+	stage('SonarQube analysis') {
+
+	withSonarQubeEnv(credentialsId: 'vidhusecret') {
+    sh 'sonar:sonar -Dsonar.host.url=http://40.78.68.176:9000/ -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java -Dsonar.username=admin -Dsonar.password=admin' 
+}
 
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
