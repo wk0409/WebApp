@@ -1,7 +1,7 @@
 
 node {
     // Get Artifactory server instance, defined in the Artifactory Plugin administration page.
-    def server = Artifactory.server "artifactorywk"
+    def server = Artifactory.server "artifactory"
     // Create an Artifactory Maven instance.
     def rtMaven = Artifactory.newMavenBuild()
     def buildInfo
@@ -34,12 +34,12 @@ node {
 	deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.191.105.236:8080')], contextPath: '/QAwebapp', war: '**/*.war'
     }
 	
-	stage('Functional Test'){
+	//stage('Functional Test'){
 	
-		dir("functionaltest/target") {
-	   sh "java -jar functionaltest-0.0.1-SNAPSHOT.jar"
-       }
-	}
+		//dir("functionaltest/target") {
+	  // sh "java -jar functionaltest-0.0.1-SNAPSHOT.jar"
+       //}
+	//}
 	
 	stage ('performance testing')
 	{
