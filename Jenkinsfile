@@ -27,7 +27,7 @@ node {
    	
 
 	 stage('SonarQube analysis') {
-		 withSonarQubeEnv(credentialsId: 'vidhusecret', installationName: 'snrvidhu1') 
+		 withSonarQubeEnv(credentialsId: 'vidhusecret', installationName: 'snrvidhu1') {
 		  sh 'mvn clean package sonar:sonar -Dsonar.host.url=http://40.78.68.176:9000/ -Dsonar.login=admin -Dsonar.password=admin -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java'
      }
   }
