@@ -27,5 +27,8 @@ node {
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
     }
+	
+	stage ('delpoy to QA')
+	deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: '18.191.105.236:8080')], contextPath: '/QAwebapp', war: '**/*.war'
     }
 	 
