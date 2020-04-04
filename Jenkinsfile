@@ -29,9 +29,17 @@ node {
         server.publishBuildInfo buildInfo
     }
 	
+	
 	stage ('delpoy to QA'){
 	deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.191.105.236:8080')], contextPath: '/QAwebapp', war: '**/*.war'
     }
+	
+	stage('Functional Test'){
+	
+		dir("comtest/target") {
+	   sh "java -jar com.test-1.0-SNAPSHOT.jar"
+       }
+	}
 	
 	stage ('performance testing')
 	{
