@@ -26,10 +26,9 @@ node {
 	}
    	
 
-	stage('SonarQube analysis') {
-    def scannerHome = tool 'SonarScanner 4.3';
-    withSonarQubeEnv('Vid') { // If you have configured more than one global server connection, you can specify its name
-      sh "${scannerHome}/bin/sonar-scanner"
+	 stage('SonarQube analysis') {
+    withSonarQubeEnv(credentialsId: '69477fd483cf00ede499dc6a8bba3a82f96dfc35', installationName: 'snrvidhu1') { // You can override the credential to be used
+      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'
     }
   }
 
