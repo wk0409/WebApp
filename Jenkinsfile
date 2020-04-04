@@ -24,6 +24,7 @@ node {
         buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
     }
 
+
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
     }
@@ -31,5 +32,10 @@ node {
 	stage ('delpoy to QA'){
 	deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.191.105.236:8080')], contextPath: '/QAwebapp', war: '**/*.war'
     }
+	
+	stage ('performance testing')
+	{
+	blazeMeterTest credentialsId: 'wk-blaze-key', testId: '7854009.taurus', workspaceId: '464414'
+	}
 }
 	 
