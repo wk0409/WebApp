@@ -26,11 +26,12 @@ node {
 	}
    	
 
-	//stage('SonarQube analysis') {
-
-	//withSonarQubeEnv(credentialsId: 'vidhusecret') {
-    //sh 'sonar:sonar -Dsonar.host.url=http://40.78.68.176:9000/ -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java -Dsonar.username=admin -Dsonar.password=admin' 
-//}
+	stage('SonarQube analysis') {
+    def scannerHome = tool 'SonarScanner 4.3';
+    withSonarQubeEnv('Vid') { // If you have configured more than one global server connection, you can specify its name
+      sh "${scannerHome}/bin/sonar-scanner"
+    }
+  }
 
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
