@@ -27,9 +27,17 @@ node {
 
 	 stage('Maven Build') {
 		buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
+			  post {
+       always {
+	       echo 'echo jiraSendBuildInfo site: balajisubramanian.atlassian.net'
+           jiraSendBuildInfo site: 'balajisubramanian.atlassian.net',branch: 'DEMO-11'
+       }
+   }
 	 }
   
-  		
+	
+  
+
 	//stage('Code Analysis'){
 		//withMaven(maven: 'maven') {
 			//withSonarQubeEnv(credentialsId: 'sonarvidhusecretkey') {
@@ -46,18 +54,27 @@ node {
 	
 	stage ('delpoy to QA'){
 	deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.191.105.236:8080')], contextPath: '/QAwebapp', war: '**/*.war'
-    }
+    slackSend channel: '#devops-bcamp', 
+		 color: 'good', 
+		message: 'Deployment to QA successful', 
+		tokenCredentialId: 'wk-slack'
+	}
 	
 	//stage('Functional Test'){
 		//functest = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
 		//publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
 	//}
 	
-	stage ('Inform Team'){
-	slackSend channel: '#devops-bcamp', 
-		 color: 'good', 
-		message: 'Deployed Application Successfully', 
-		tokenCredentialId: 'wk-slack'
+	stage ('deploy to PROD'){
+		deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.189.21.155:8080')], 
+			contextPath: '/PRODwebapp', war: '**/*.war'
+		
+		post {
+       always {
+	       echo 'echo jiraSendDeploymentInfo site: balajisubramanian.atlassian.net'
+           jiraSendDeploymentInfo site: 'balajisubramanian.atlassian.net', environmentId: 'us-prod-1', environmentName: 'us-prod-1', environmentType: 'production'
+       }
+   }	
 	}
 	//stage ('performance testing')
 	///{
