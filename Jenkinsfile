@@ -64,6 +64,13 @@ node {
 		publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
 	}
 	
+	stage ('Inform Team'){
+	slackSend channel: '#devops-bcamp', 
+		  color: 'good', 
+		message: 'Deployed Application Successfully', 
+		teamDomain: 'tcs-seq3006.slack.com', 
+		tokenCredentialId: 'wk-slack'
+	}
 	//stage ('performance testing')
 	///{
 	//blazeMeterTest credentialsId: 'wk-blaze-key', testId: '7854009.taurus', workspaceId: '464414'
