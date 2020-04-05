@@ -48,6 +48,7 @@ node {
 	//	withSonarQubeEnv(credentialsId: 'vidhusonar1') 
 	//	{
    	//		sh 'mvn clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
+			sh 'mvn -B -DskipTests clean package -D sonar.login =admin -D sonar.password =admin'
 	//	}
 	//}
 	
@@ -55,12 +56,15 @@ node {
    	 //maven 'maven'
  	//	 }
   		
-    		stage('Code Analysis') {
-     			 steps {
-      			  sh 'mvn -B -DskipTests clean package -D sonar.login =admin -D sonar.password =admin'
-      				}
-  			  }
-  
+    		stage('Code Analysis')
+	{
+	//	def sonarhome = tool 'sonar';
+		withSonarQubeEnv(credentialsId: 'vidhusonar1') 
+		{
+   	//		sh 'mvn clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
+			sh 'mvn -B -DskipTests clean package -D sonar.login =admin -D sonar.password =admin'
+		}
+	}
 
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
