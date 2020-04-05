@@ -13,9 +13,9 @@ node {
    //       maven 'maven'
      //   }
 	
-   // stage('Clone sources') {
-     //   git url: 'https://github.com/wk0409/webapp.git'
-    // }
+   stage('Clone sources') {
+      git url: 'https://github.com/wk0409/webapp.git'
+    }
 
     stage('Artifactory configuration') {
         // Tool name from Jenkins configuration
@@ -25,6 +25,10 @@ node {
         rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
     }
 
+	 stage('Maven Build') {
+		buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
+	}
+  
   	
 	// stage('SonarQube analysis') {
 		// rtMaven.tool = "maven"
@@ -47,10 +51,7 @@ node {
 		}
 	}
 	
-	 stage('Maven Build') {
-		buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
-	}
-  
+	
 
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
