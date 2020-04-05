@@ -73,7 +73,7 @@ node {
            jiraSendDeploymentInfo site: 'balajisubramanian.atlassian.net', environmentId: 'us-prod-1', environmentName: 'us-prod-1', environmentType: 'production'
        //}
    }	
-	}
+	//}
 	//stage ('performance testing')
 	///{
 	//blazeMeterTest credentialsId: 'wk-blaze-key', testId: '7854009.taurus', workspaceId: '464414'
