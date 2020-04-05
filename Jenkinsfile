@@ -27,13 +27,7 @@ node {
 
 	 stage('Maven Build') {
 		buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
-		 if (buildInfo='SUCCESS'){
-			 slackSend channel: '#devops-bcamp', 
-				 color: 'good', 
-				 message: 'Build Success', 
-				 tokenCredentialId: 'wk-slack'
-		 }
-	}
+	 }
   
   		
 	stage('Code Analysis'){
@@ -44,7 +38,19 @@ node {
 			}
 		}
 		
-		
+           stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                        def qg=waitForQualityGate()
+		      if (qg.status='OK') {
+		      slackSend channel: '#devops-bcamp', 
+			      color: 'good',
+			      message: 'Quality Check Passed', 
+			      tokenCredentialId: 'wk-slack'
+		      }
+              }
+            }
+          }	
 
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
