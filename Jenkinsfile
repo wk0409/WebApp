@@ -46,7 +46,7 @@ node {
 		def sonarhome = tool 'sonar';
 		withSonarQubeEnv(credentialsId: 'vidhusonar1') 
 		{
-   			sh """${sonarhome}/bin/sonar-runner -D sonar.login = admin -D sonar.password = admin"""	
+   			sh """${sonarhome}/bin/sonar-runner -D sonar.login =admin -D sonar.password =admin"""	
 		}
 	}
 	
