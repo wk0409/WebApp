@@ -27,46 +27,18 @@ node {
 
 	 stage('Maven Build') {
 		buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
+		 if (buildInfo='SUCCESS'){
+			 slackSend channel: '#devops-bcamp', 
+				 color: 'good', 
+				 message: 'Build Success', 
+				 tokenCredentialId: 'wk-slack'
+		 }
 	}
   
-  	
-	// stage('SonarQube analysis') {
-		// rtMaven.tool = "maven"
-		// withSonarQubeEnv('snrvidhu1') {
-		 // sh 'mvn clean package sonar:sonar -Dsonar.host.url=http://40.78.68.176:9000/ -Dsonar.login=69477fd483cf00ede499dc6a8bba3a82f96dfc35 -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java'
-	 //stage('SonarQube analysis') {
-   		// withSonarQubeEnv(credentialsId: '69477fd483cf00ede499dc6a8bba3a82f96dfc35', installationName: 'snrvidhu1') { 
-      		 //sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.0.1398:sonar'	
-	
-	//stage('Checkout SCM')
-	//{
-	
-	//}
-	//stage('Code Analysis')
-	//{
-	//	def sonarhome = tool 'sonar';
-	//	withSonarQubeEnv(credentialsId: 'vidhusonar1') 
-	//	{
-   	//		sh 'mvn clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
-			//sh 'mvn -B -DskipTests clean package -D sonar.login =admin -D sonar.password =admin'
-	//	}
-	//}
-	
-	//tools {
-   	 //maven 'maven'
- 	//	 }
   		
-    		stage('Code Analysis')
-	{
-	//	def sonarhome = tool 'sonar';
+	stage('Code Analysis'){
 		withMaven(maven: 'maven') {
-    // some block
-			withSonarQubeEnv(credentialsId: 'sonarvidhusecretkey') 
-		{
-   	//		sh 'mvn clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
-			// sh 'mvn -B -DskipTests clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
-			//sh 'mvn -B -DskipTests package sonar:sonar -D sonar.host.url=http://40.78.68.176:9000/ -Dsonar.login =69477fd483cf00ede499dc6a8bba3a82f96dfc35'
-			//sonar.login=69477fd483cf00ede499dc6a8bba3a82f96dfc35'
+			withSonarQubeEnv(credentialsId: 'sonarvidhusecretkey') {
 			sh 'mvn -B -DskipTests package sonar:sonar -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java'
 		}
 			}
