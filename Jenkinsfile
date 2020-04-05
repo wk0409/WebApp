@@ -61,7 +61,7 @@ node {
 	//	def sonarhome = tool 'sonar';
 		withMaven(maven: 'maven') {
     // some block
-			withSonarQubeEnv(credentialsId: 'vidhusonar1') 
+			withSonarQubeEnv(credentialsId: 'sonarvidhusecretkey') 
 		{
    	//		sh 'mvn clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
 			// sh 'mvn -B -DskipTests clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
