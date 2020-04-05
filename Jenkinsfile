@@ -64,7 +64,6 @@ node {
 	}
 
 stage ('performance testing'){
-	{
 	blazeMeterTest credentialsId: 'wk-blaze-key', testId: '7854009.taurus', workspaceId: '464414'
 	}
 	
