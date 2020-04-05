@@ -9,9 +9,9 @@ node {
     
  rtMaven.tool = "maven"
 
-  tools {
-          maven 'maven'
-        }
+ // tools {
+   //       maven 'maven'
+     //   }
 	
     stage('Clone sources') {
         git url: 'https://github.com/wk0409/webapp.git'
