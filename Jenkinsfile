@@ -36,13 +36,13 @@ node {
 	
   
 
-	//stage('Code Analysis'){
-		//withMaven(maven: 'maven') {
-			//withSonarQubeEnv(credentialsId: 'sonarvidhusecretkey') {
-			//sh 'mvn -B -DskipTests package sonar:sonar -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java'
-		//}
-			//}
-		//}
+	stage('Code Analysis'){
+		withMaven(maven: 'maven') {
+			withSonarQubeEnv(credentialsId: 'sonarvidhusecretkey') {
+			sh 'mvn -B -DskipTests package sonar:sonar -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java'
+		}
+			}
+		}
 		
 
     stage('Publish build info') {
@@ -52,31 +52,40 @@ node {
 	
 	stage ('delpoy to QA'){
 	deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.191.105.236:8080')], contextPath: '/QAwebapp', war: '**/*.war'
-    slackSend channel: '#devops-bcamp', 
-		 color: 'good', 
-		message: 'Deployment to QA successful', 
-		tokenCredentialId: 'wk-slack'
+    
+		echo 'echo jiraSendDeploymentInfo site: balajisubramanian.atlassian.net'
+           jiraSendDeploymentInfo site: 'balajisubramanian.atlassian.net', environmentId: 'us-qa-1', environmentName: 'us-qa-1', environmentType: 'Quality'
 	}
 	
-	//stage('Functional Test'){
-		//functest = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
-		//publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
-	//}
+	
+	stage('Functional Test'){
+		functest = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
+		publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+	}
+
+stage ('performance testing'){
+	{
+	blazeMeterTest credentialsId: 'wk-blaze-key', testId: '7854009.taurus', workspaceId: '464414'
+	}
 	
 	stage ('deploy to PROD'){
 		deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.189.21.155:8080')], 
-			contextPath: '/PRODwebapp', war: '**/*.war'
-		
-		//post {
-      // always {
+			contextPath: '/ProdwebApp', war: '**/*.war'
+	 
 	       echo 'echo jiraSendDeploymentInfo site: balajisubramanian.atlassian.net'
            jiraSendDeploymentInfo site: 'balajisubramanian.atlassian.net', environmentId: 'us-prod-1', environmentName: 'us-prod-1', environmentType: 'production'
-       //}
    }	
-	//}
-	//stage ('performance testing')
-	///{
-	//blazeMeterTest credentialsId: 'wk-blaze-key', testId: '7854009.taurus', workspaceId: '464414'
-	//}
-}
+	
+	stage('Acceptance Test'){
+		functest = rtMaven.run pom: 'Acceptancetest/pom.xml', goals: 'test'
+		publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\Acceptancetest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+	slackSend channel: '#devops-bcamp', 
+		color: 'good', 
+		message: 'Pipeline Job Executed Successfully', 
+		tokenCredentialId: 'wk-slack'
+	}
+	
+	
+	
+	
 	 
