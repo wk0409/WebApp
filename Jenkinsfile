@@ -30,25 +30,14 @@ node {
 	 }
   
   		
-	stage('Code Analysis'){
-		withMaven(maven: 'maven') {
-			withSonarQubeEnv(credentialsId: 'sonarvidhusecretkey') {
-			sh 'mvn -B -DskipTests package sonar:sonar -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java'
-		}
-			}
-		}
+	//stage('Code Analysis'){
+		//withMaven(maven: 'maven') {
+			//withSonarQubeEnv(credentialsId: 'sonarvidhusecretkey') {
+			//sh 'mvn -B -DskipTests package sonar:sonar -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java'
+		//}
+			//}
+		//}
 		
-           //stage("Quality Gate") {
-              //timeout(time: 1, unit: 'HOURS') {
-                 // def qg=waitForQualityGate()
-		     // if(qg.status='OK'){
-		    //  slackSend channel: '#devops-bcamp', 
-			       // color: 'good',
-			      //  message: 'Quality Check Passed', 
-			    //    tokenCredentialId: 'wk-slack'
-		      //}
-             // }
-          //  }
 
     stage('Publish build info') {
         server.publishBuildInfo buildInfo
@@ -59,10 +48,10 @@ node {
 	deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.191.105.236:8080')], contextPath: '/QAwebapp', war: '**/*.war'
     }
 	
-	stage('Functional Test'){
-		functest = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
-		publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
-	}
+	//stage('Functional Test'){
+		//functest = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
+		//publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
+	//}
 	
 	stage ('Inform Team'){
 	slackSend channel: '#devops-bcamp', 
