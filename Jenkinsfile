@@ -29,8 +29,6 @@ node {
 		buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
 	}
    	
-
-	
 	// stage('SonarQube analysis') {
 		// rtMaven.tool = "maven"
 		// withSonarQubeEnv('snrvidhu1') {
