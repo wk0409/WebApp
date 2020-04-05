@@ -64,7 +64,8 @@ node {
 			withSonarQubeEnv(credentialsId: 'vidhusonar1') 
 		{
    	//		sh 'mvn clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
-			sh 'mvn -B -DskipTests clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
+			// sh 'mvn -B -DskipTests clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
+			sh 'mvn -B -DskipTests clean package sonar:sonar -Dsonar.login=69477fd483cf00ede499dc6a8bba3a82f96dfc35'
 		}
 			}
 		}
