@@ -9,6 +9,10 @@ node {
     
  rtMaven.tool = "maven"
 
+  tools {
+          maven 'maven'
+        }
+	
     stage('Clone sources') {
         git url: 'https://github.com/wk0409/webapp.git'
     }
@@ -26,11 +30,9 @@ node {
 	}
    	
 
+	
 	 stage('SonarQube analysis') {
 		 //rtMaven.tool = "maven"
-		  tools {
-          maven 'maven'
-        }
 		 withSonarQubeEnv('snrvidhu1') {
 		  sh 'mvn clean package sonar:sonar -Dsonar.host.url=http://40.78.68.176:9000/ -Dsonar.login=69477fd483cf00ede499dc6a8bba3a82f96dfc35 -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java'
 		 }
