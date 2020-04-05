@@ -55,9 +55,8 @@ node {
 	
 	stage ('Inform Team'){
 	slackSend channel: '#devops-bcamp', 
-		  color: 'good', 
+		 color: 'good', 
 		message: 'Deployed Application Successfully', 
-		teamDomain: 'tcs-seq3006.slack.com', 
 		tokenCredentialId: 'wk-slack'
 	}
 	//stage ('performance testing')
