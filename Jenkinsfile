@@ -42,7 +42,7 @@ node {
 	//{
 	
 	//}
-	Stage('Code Analysis')
+	stage('Code Analysis')
 	{
 		def sonarhome = tool 'sonar';
 		withSonarQubeEnv(credentialsId: 'vidhusonar1') 
