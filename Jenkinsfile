@@ -51,9 +51,9 @@ node {
 	//	}
 	//}
 	
-	tools {
-   	 maven 'maven'
- 		 }
+	//tools {
+   	 //maven 'maven'
+ 	//	 }
   		
     		stage('Code Analysis') {
      			 steps {
