@@ -27,10 +27,12 @@ node {
    	
 
 	 stage('SonarQube analysis') {
-		 rtMaven.tool = "maven"
+		 //rtMaven.tool = "maven"
 		 withSonarQubeEnv(credentialsId: 'vidhusecret', installationName: 'snrvidhu1') {
+			 withMaven(maven:'Maven 3.5'){
 		  sh 'mvn clean package sonar:sonar -Dsonar.host.url=http://40.78.68.176:9000/ -Dsonar.login=admin -Dsonar.password=admin -Dsonar.sources=. -Dsonar.tests=. -Dsonar.test.inclusions=**/test/java/servlet/createpage_junit.java -Dsonar.exclusions=**/test/java/servlet/createpage_junit.java'
      }
+		 }
   }
 
     stage('Publish build info') {
