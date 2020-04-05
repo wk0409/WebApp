@@ -65,7 +65,7 @@ node {
 		{
    	//		sh 'mvn clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
 			// sh 'mvn -B -DskipTests clean package sonar:sonar -D sonar.login =admin -D sonar.password =admin'
-			sh 'mvn -B -DskipTests clean package sonar:sonar -Dsonar.login=69477fd483cf00ede499dc6a8bba3a82f96dfc35'
+			sh 'mvn -B -DskipTests clean package sonar:sonar -Dsonar.host.url=http://40.78.68.176:9000/ -Dsonar.login=69477fd483cf00ede499dc6a8bba3a82f96dfc35'
 		}
 			}
 		}
