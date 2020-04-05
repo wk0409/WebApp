@@ -27,12 +27,10 @@ node {
 
 	 stage('Maven Build') {
 		buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
-			  post {
-       always {
+			 // post {
+       //always {
 	       echo 'echo jiraSendBuildInfo site: balajisubramanian.atlassian.net'
            jiraSendBuildInfo site: 'balajisubramanian.atlassian.net',branch: 'DEMO-11'
-       }
-   }
 	 }
   
 	
@@ -69,11 +67,11 @@ node {
 		deploy adapters: [tomcat7(credentialsId: 'tomcatusername', path: '', url: 'http://18.189.21.155:8080')], 
 			contextPath: '/PRODwebapp', war: '**/*.war'
 		
-		post {
-       always {
+		//post {
+      // always {
 	       echo 'echo jiraSendDeploymentInfo site: balajisubramanian.atlassian.net'
            jiraSendDeploymentInfo site: 'balajisubramanian.atlassian.net', environmentId: 'us-prod-1', environmentName: 'us-prod-1', environmentType: 'production'
-       }
+       //}
    }	
 	}
 	//stage ('performance testing')
